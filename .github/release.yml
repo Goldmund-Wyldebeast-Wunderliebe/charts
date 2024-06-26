@@ -3,6 +3,3 @@ changelog:
     - title: '🐳 Buildkit Service'
       labels:
         - 'buildkit-service'
-    - title: '🚬 Smocker Mock server'
-      labels:
-        - 'smocker'
