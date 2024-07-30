@@ -111,9 +111,6 @@ spec:
       {{- end }}
       {{- if or .Values.rootless .Values.persistentVolume }}
       - name: buildkitd
-      {{- if .Values.rootless }}
-        emptyDir: {}
-      {{- end }}
       {{- if .Values.persistentVolume }}
         persistentVolumeClaim:
           claimName: buildkitd
@@ -122,6 +119,8 @@ spec:
           resources:
             requests:
               storage: {{ .Values.persistentVolume.size }}
+      {{ else }}
+        emptyDir: {}
       {{- end }}
       {{- end }}
       {{- if .Values.tls.enabled }}
