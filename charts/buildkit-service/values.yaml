@@ -12,9 +12,9 @@ image:
 rootless: false
 
 # Use a persistent volume.
-persistentVolume:
-  storageClass: transip-fast-storage
-  size: 30G
+#persistentVolume:
+#  storageClass: transip-fast-storage
+#  size: 30G
 
 # -- Enable debug logging
 debugLog: false
