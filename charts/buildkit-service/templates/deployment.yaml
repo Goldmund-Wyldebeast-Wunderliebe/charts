@@ -88,10 +88,11 @@ spec:
             periodSeconds: 30
           securityContext:
           {{- if .Values.rootless }}
-            seccompProfile: # Needs Kubernetes >= 1.19
+            seccompProfile: # Needs Kubernetes >= 1.23
               type: Unconfined
             runAsUser: 1000
             runAsGroup: 1000
+            fsGroup: 1000
           {{- else }}
             privileged: true
           {{- end }}
