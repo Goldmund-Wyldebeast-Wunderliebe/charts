@@ -114,7 +114,6 @@ spec:
       {{- if .Values.persistentVolume }}
         persistentVolumeClaim:
           claimName: buildkitd
-          volumeName: buildkitd
       {{ else }}
         emptyDir: {}
       {{- end }}
