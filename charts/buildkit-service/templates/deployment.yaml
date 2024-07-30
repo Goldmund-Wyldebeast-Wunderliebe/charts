@@ -27,7 +27,7 @@ spec:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ include "buildkit.imageTag" . }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          {{- if or .Values.rootless .Values.tls.enabled .Values.buildkitdToml }}
+          {{- if or .Values.rootless .Values.tls.enabled .Values.buildkitdToml .Values.persistentVolume }}
           volumeMounts:
           {{- if .Values.buildkitdToml }}
             - name: config
@@ -38,9 +38,14 @@ spec:
               readOnly: true
               mountPath: /certs
           {{- end }}
+          {{- if or .Values.rootless .Values.persistentVolume }}
+            - name: buildkitd
           {{- if .Values.rootless }}
-            - mountPath: /home/user/.local/share/buildkit
-              name: buildkitd
+              mountPath: /home/user/.local/share/buildkit
+          {{- end }}
+          {{- if .Values.persistentVolume }}
+              mountPath: /var/lib/buildkit
+          {{- end }}
           {{- end }}
           {{- end }}
           args:
@@ -97,22 +102,34 @@ spec:
           lifecycle:
             {{- toYaml . | nindent 12 }}
           {{- end }}
-      {{- if or .Values.rootless .Values.tls.enabled .Values.buildkitdToml }}
+      {{- if or .Values.rootless .Values.tls.enabled .Values.buildkitdToml .Values.persistentVolume }}
       volumes:
       {{- if .Values.buildkitdToml }}
       - name: config
         configMap:
           name: buildkitd-config
       {{- end }}
-      {{- if .Values.rootless }}
+      {{- if or .Values.rootless .Values.persistentVolume }}
       - name: buildkitd
+      {{- if .Values.rootless }}
         emptyDir: {}
+      {{- end }}
+      {{- if .Values.persistentVolume }}
+        persistentVolumeClaim:
+          claimName: buildkitd
+          storageClassName: {{ .Values.persistentVolume.storageClass }}
+          accessModes: [ "ReadWriteMany" ]
+          resources:
+            requests:
+              storage: {{ .Values.persistentVolume.size }}
+      {{- end }}
       {{- end }}
       {{- if .Values.tls.enabled }}
       - name: certs
         secret:
           secretName: {{ include "buildkit.fullname" . }}
       {{- end }}
+
       {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:

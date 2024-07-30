@@ -11,6 +11,11 @@ image:
 # -- Run rootless mode, https://github.com/moby/buildkit/blob/master/docs/rootless.md
 rootless: false
 
+# Use a persistent volume.
+persistentVolume:
+  storageClass: transip-fast-storage
+  size: 30G
+
 # -- Enable debug logging
 debugLog: false
 
