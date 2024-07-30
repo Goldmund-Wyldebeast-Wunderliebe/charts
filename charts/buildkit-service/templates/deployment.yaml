@@ -114,11 +114,6 @@ spec:
       {{- if .Values.persistentVolume }}
         persistentVolumeClaim:
           claimName: buildkitd
-          storageClassName: {{ .Values.persistentVolume.storageClass }}
-          accessModes: [ "ReadWriteMany" ]
-          resources:
-            requests:
-              storage: {{ .Values.persistentVolume.size }}
       {{ else }}
         emptyDir: {}
       {{- end }}
