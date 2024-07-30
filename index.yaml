@@ -29,6 +29,26 @@ entries:
           url: https://github.com/andrcuns/charts/issues
     apiVersion: v2
     appVersion: v0.15.1
+    created: "2024-07-30T14:34:38.14909567Z"
+    description: Helm chart for buildkit service deployment
+    digest: 4727a1e3983401233ded46b3a0988b37aa0bf57db43041f2e3c31fe3a0de2eca
+    icon: https://raw.githubusercontent.com/andrcuns/buildkit-chart/main/charts/buildkit-service/icon.png
+    maintainers:
+    - email: andrejs.cunskis@gmail.com
+      name: Andrejs Cunskis
+    name: buildkit-service
+    type: application
+    urls:
+    - https://github.com/Goldmund-Wyldebeast-Wunderliebe/charts/releases/download/buildkit-service-0.6.0-rc7/buildkit-service-0.6.0-rc7.tgz
+    version: 0.6.0-rc7
+  - annotations:
+      artifacthub.io/links: |
+        - name: source
+          url: https://github.com/andrcuns/charts
+        - name: support
+          url: https://github.com/andrcuns/charts/issues
+    apiVersion: v2
+    appVersion: v0.15.1
     created: "2024-07-30T14:24:29.605777612Z"
     description: Helm chart for buildkit service deployment
     digest: be27988e3db159cefa24ea5b329e56ecb1958d2dd2c4bca2c5944a7ac25d3692
@@ -161,4 +181,4 @@ entries:
     urls:
     - https://github.com/Goldmund-Wyldebeast-Wunderliebe/charts/releases/download/buildkit-service-0.5.1/buildkit-service-0.5.1.tgz
     version: 0.5.1
-generated: "2024-07-30T14:24:29.605843415Z"
+generated: "2024-07-30T14:34:38.149171902Z"
