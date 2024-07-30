@@ -40,10 +40,10 @@ spec:
           {{- end }}
           {{- if or .Values.rootless .Values.persistentVolume }}
             - name: buildkitd
-          {{- if .Values.persistentVolume }}
-              mountPath: /var/lib/buildkit
-          {{- else }}
+          {{- if .Values.rootless }}
               mountPath: /home/user/.local/share/buildkit
+          {{- else }}
+              mountPath: /var/lib/buildkit
           {{- end }}
           {{- end }}
           {{- end }}
