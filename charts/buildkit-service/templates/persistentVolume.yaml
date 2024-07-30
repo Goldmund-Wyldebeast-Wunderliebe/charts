@@ -1,0 +1,15 @@
+{{- if .Values.persistentVolume }}
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: buildkitd
+spec:
+  capacity:
+    storage: {{ .Values.persistentVolume.size }}
+  storageClassName: {{ .Values.persistentVolume.storageClass }}
+  persistentVolumeReclaimPolicy: Retain
+  accessModes: [ "ReadWriteMany" ]
+  claimRef:
+    name: buildkitd
+    namespace: {{ .Release.Namespace }}
+{{- end }}
