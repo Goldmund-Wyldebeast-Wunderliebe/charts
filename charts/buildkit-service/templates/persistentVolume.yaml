@@ -1,16 +1,14 @@
 {{- if .Values.persistentVolume }}
 apiVersion: v1
-kind: PersistentVolume
+kind: PersistentVolumeClaim
 metadata:
-  name: buildkitd
+  name: buildkitd-pvc
   namespace: {{ .Release.Namespace }}
 spec:
-  capacity:
-    storage: {{ .Values.persistentVolume.size }}
+  resources:
+    requests:
+      size: {{ .Values.persistentVolume.size }}
   storageClassName: {{ .Values.persistentVolume.storageClass }}
   persistentVolumeReclaimPolicy: Retain
   accessModes: [ "ReadWriteMany" ]
-  claimRef:
-    name: buildkitd
-    namespace: {{ .Release.Namespace }}
 {{- end }}
