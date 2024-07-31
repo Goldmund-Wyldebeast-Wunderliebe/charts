@@ -9,9 +9,5 @@ spec:
     requests:
       storage: {{ .Values.persistentVolume.size }}
   storageClassName: {{ .Values.persistentVolume.storageClass }}
-  persistentVolumeReclaimPolicy: Retain
   accessModes: [ "ReadWriteMany" ]
-  claimRef:
-    name: buildkitd
-    namespace: {{ .Release.Namespace }}
 {{- end }}
