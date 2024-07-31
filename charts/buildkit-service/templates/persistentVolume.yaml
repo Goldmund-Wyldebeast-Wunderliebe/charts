@@ -7,7 +7,7 @@ metadata:
 spec:
   resources:
     requests:
-      size: {{ .Values.persistentVolume.size }}
+      storage: {{ .Values.persistentVolume.size }}
   storageClassName: {{ .Values.persistentVolume.storageClass }}
   accessModes: [ "ReadWriteMany" ]
 {{- end }}
