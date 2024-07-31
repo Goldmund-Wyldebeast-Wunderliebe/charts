@@ -116,7 +116,7 @@ spec:
       - name: buildkitd
       {{- if .Values.persistentVolume }}
         persistentVolumeClaim:
-          claimName: buildkitd-pvc
+          claimName: buildkit-service-pvc
       {{- else }}
         emptyDir: {}
       {{- end }}
