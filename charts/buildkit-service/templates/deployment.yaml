@@ -88,11 +88,10 @@ spec:
             periodSeconds: 30
           securityContext:
           {{- if .Values.rootless }}
-            seccompProfile: # Needs Kubernetes >= 1.23
+            seccompProfile: # Needs Kubernetes >= 1.19
               type: Unconfined
             runAsUser: 1000
             runAsGroup: 1000
-            fsGroup: 1000
           {{- else }}
             privileged: true
           {{- end }}
@@ -102,6 +101,10 @@ spec:
           lifecycle:
             {{- toYaml . | nindent 12 }}
           {{- end }}
+      {{- if .Values.rootless }}
+      securityContext:
+        fsGroup: 1000
+      {{- end }}
       {{- if or .Values.rootless .Values.tls.enabled .Values.buildkitdToml .Values.persistentVolume }}
       volumes:
       {{- if .Values.buildkitdToml }}
