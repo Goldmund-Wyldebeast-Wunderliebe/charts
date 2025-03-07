@@ -4,9 +4,9 @@ kind: PersistentVolumeClaim
 metadata:
   name: buildkit-service-pvc
   namespace: {{ .Release.Namespace }}
-  {{ if .Values.persistentVolume.annotations }}
+  {{- if .Values.persistentVolume.annotations }}
   annotations:
-    {{ .Values.persistentVolume.annotations | toYaml | trim | nindent 4 }}
+    {{- toYaml .Values.persistentVolume.annotations | nindent 4 }}
   {{- end }}
 spec:
   resources:
