@@ -1,0 +1,17 @@
+{{- if .Values.persistentVolume }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: buildkit-service-pvc
+  namespace: {{ .Release.Namespace }}
+  {{ if .Values.persistentVolume.annotations }}
+  annotations:
+    {{ .Values.persistentVolume.annotations | toYaml | trim | nindent 4 }}
+  {{- end }}
+spec:
+  resources:
+    requests:
+      storage: {{ .Values.persistentVolume.size }}
+  storageClassName: {{ .Values.persistentVolume.storageClass }}
+  accessModes: [ "ReadWriteOnce" ]
+{{- end }}
