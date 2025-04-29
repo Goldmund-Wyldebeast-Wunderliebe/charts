@@ -14,6 +14,12 @@ rootless: false
 # -- Enable the preStop script for graceful shutdown, https://github.com/seatgeek/buildkit-prestop-script
 preStop: false
 
+# -- Use a persistent volume for the buildkitd storage.
+# persistentVolume:
+#   storageClass: ""
+#   size: 30G
+#   annotations: []
+
 # -- Enable debug logging
 debugLog: false
 

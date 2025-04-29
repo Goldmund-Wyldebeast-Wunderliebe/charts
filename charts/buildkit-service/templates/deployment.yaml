@@ -27,7 +27,7 @@ spec:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ include "buildkit.imageTag" . }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          {{- if or .Values.rootless .Values.tls.enabled .Values.buildkitdToml .Values.preStop }}
+          {{- if or .Values.rootless .Values.tls.enabled .Values.buildkitdToml .Values.persistentVolume .Values.preStop }}
           volumeMounts:
           {{- if .Values.buildkitdToml }}
             - name: config
@@ -38,9 +38,9 @@ spec:
               readOnly: true
               mountPath: /certs
           {{- end }}
-          {{- if .Values.rootless }}
+          {{- if or .Values.rootless .Values.persistentVolume }}
             - name: buildkitd
-              mountPath: /home/user/.local/share/buildkit
+              mountPath: {{ if .Values.rootless }}/home/user/.local/share/buildkit{{ else }}/var/lib/buildkit{{ end }}
           {{- end }}
           {{- if .Values.preStop }}
             - name: files
@@ -108,16 +108,25 @@ spec:
           lifecycle:
             {{- toYaml . | nindent 12 }}
           {{- end }}
-      {{- if or .Values.rootless .Values.tls.enabled .Values.buildkitdToml .Values.preStop }}
+      {{- if .Values.rootless }}
+      securityContext:
+        fsGroup: 1000
+      {{- end }}
+      {{- if or .Values.rootless .Values.tls.enabled .Values.buildkitdToml .Values.persistentVolume .Values.preStop }}
       volumes:
       {{- if .Values.buildkitdToml }}
       - name: config
         configMap:
           name: buildkitd-config
       {{- end }}
-      {{- if .Values.rootless }}
+      {{- if or .Values.rootless .Values.persistentVolume }}
       - name: buildkitd
+      {{- if .Values.persistentVolume }}
+        persistentVolumeClaim:
+          claimName: buildkit-service-pvc
+      {{- else }}
         emptyDir: {}
+      {{- end }}
       {{- end }}
       {{- if .Values.tls.enabled }}
       - name: certs
